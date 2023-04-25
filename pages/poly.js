@@ -1,14 +1,10 @@
 import Link from "next/link";
-import Image from "next/legacy/image";
 import { useState } from "react";
-import { Inter } from "next/font/google";
+import { Chart } from "chart.js";
 
-import bgimg from "../public/bgimg.jpg";
-
-const inter = Inter({ subsets: ["latin"] });
-
-export default function Home() {
+export default function Poly() {
   const [navbar, setNavbar] = useState(false);
+
   return (
     <div className="p-12 min-h-screen items-center flex-col">
       <nav className="w-full font-mono border-b z-10 text-gray-700 dark:text-white bg-zinc-300 border-gray-800 dark:border-stone-100 dark:bg-gray-800 backdrop-blur-2xl">
@@ -82,29 +78,31 @@ export default function Home() {
         </div>
       </nav>
 
-      <div className="p-10 text-center items-center">
-        <Image
-          src={bgimg}
-          alt="bg"
-          width={35}
-          height={20}
-          layout="responsive"
-        />
-        <br />
-        <p className="items-center justify-between font-mono text-lg sm:text-xl md:text-2xl lg:text-5xl">
-          Welcome to{" "} <br/>
-          <span className="italic border-solid border-2 p-1 rounded border-gray-200 ">
-            MATH WADDLE
-          </span>
-        </p>{" "}
-        <br />
-        <p className=" md:text-lg lg:text-xl font-mono">
-          Enjoy the magic of <code>MATHEMATICS</code> <br /> with the
-          visualizations, graphs, geometrical figures, solving equations and
-          more...
-        </p>
+      <div className="p-10">
+        <div id="linear">
+          <h1 className="font-mono text-xl">Linear Equations :-</h1>
+          <br />
+          <div className="font-mono px-5">
+            <div className="flex">
+              <p>First equation (x+y=10) :- </p>
+              <input
+                type="text"
+                className="mx-2 dark:bg-black border-2 border-black dark:border-white border-solid"
+              />
+            </div>
+            <br />
+            <div className="flex">
+              <p>Second equation (x+2y=20) :- </p>
+              <input
+                type="text"
+                className="mx-2 dark:bg-black border-2 border-black dark:border-white border-solid"
+              />
+            </div>
+
+            
+          </div>
+        </div>
       </div>
     </div>
   );
 }
-
