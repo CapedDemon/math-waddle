@@ -7,7 +7,7 @@ import math, { string } from "mathjs";
 // const X = math.ones([range.length, range.length]).mul(range);
 // const Y = math.transpose(X);
 
-export default function Poly() {
+export default function LinearEquation() {
   const [navbar, setNavbar] = useState(false);
   const [value1, setValue1] = useState("");
   const [value2, setValue2] = useState("");
@@ -46,114 +46,117 @@ export default function Poly() {
   const LinearGraphFunc = (input1, input2, divId) => {
     const result1 = getCoefficients(string(input1));
     const result2 = getCoefficients(string(input2));
-    console.log(result1, result2);
 
-    const x1 = result1["xCoeff"];
-    const x2 = result2["xCoeff"];
-    const y1 = result1["yCoeff"];
-    const y2 = result2["yCoeff"];
-    const c1 = result1["constantTerm"];
-    const c2 = result2["constantTerm"];
-
-    // Check if a chart instance already exists
-    let chart = Chart.getChart(divId);
-
-    // Calculate the intersection point of the two lines
-    const xIntersect = (c2 * y1 - c1 * y2) / (x1 * y2 - x2 * y1);
-    const yIntersect = (c1 * x2 - c2 * x1) / (x1 * y2 - x2 * y1);
-
-    if (chart) {
-      // Update chart data and options
-      chart.data.datasets[0].label = `Equation 1: ${x1}x + ${y1}y = ${c1}`;
-      chart.data.datasets[0].data = [
-        (-c1 - x1 * -10) / y1,
-        (-c1 - x1 * 10) / y1,
-      ];
-      chart.data.datasets[1].label = `Equation 2: ${x2}x + ${y2}y = ${c2}`;
-      chart.data.datasets[1].data = [
-        (-c2 - x2 * -10) / y2,
-        (-c2 - x2 * 10) / y2,
-      ];
-      chart.data.datasets[2].data = [
-        {
-          x: xIntersect,
-          y: yIntersect,
-        },
-      ];
-      chart.update();
+    if (result1 == "failed" || result2 == "failed") {
+      alert("Equation not in the format of ax+by=c");
     } else {
-      // Create a chart.js line chart configuration object
-      const chartConfig = {
-        type: "line",
-        data: {
-          labels: [-10, 10],
-          datasets: [
-            {
-              label: `Equation 1: ${x1}x + ${y1}y = ${c1}`,
-              data: [(-c1 - x1 * -10) / y1, (-c1 - x1 * 10) / y1],
-              fill: false,
-              borderColor: "red",
-              tension: 0.1,
-            },
-            {
-              label: `Equation 2: ${x2}x + ${y2}y = ${c2}`,
-              data: [(-c2 - x2 * -10) / y2, (-c2 - x2 * 10) / y2],
-              fill: false,
-              borderColor: "blue",
-              tension: 0.1,
-            },
-            {
-              label: "Intersection Point",
-              data: [
-                {
-                  x: xIntersect,
-                  y: yIntersect,
-                },
-              ],
-              pointRadius: 6,
-              pointBackgroundColor: "green",
-            },
-          ],
-        },
-        options: {
-          scales: {
-            x: {
-              type: "linear",
-              ticks: {
-                stepSize: 1,
-                max: 10,
-                min: -10,
+      const x1 = result1["xCoeff"];
+      const x2 = result2["xCoeff"];
+      const y1 = result1["yCoeff"];
+      const y2 = result2["yCoeff"];
+      const c1 = result1["constantTerm"];
+      const c2 = result2["constantTerm"];
+
+      // Check if a chart instance already exists
+      let chart = Chart.getChart(divId);
+
+      // Calculate the intersection point of the two lines
+      const xIntersect = (c2 * y1 - c1 * y2) / (x1 * y2 - x2 * y1);
+      const yIntersect = (c1 * x2 - c2 * x1) / (x1 * y2 - x2 * y1);
+
+      if (chart) {
+        // Update chart data and options
+        chart.data.datasets[0].label = `Equation 1: ${x1}x + ${y1}y = ${c1}`;
+        chart.data.datasets[0].data = [
+          (-c1 - x1 * -10) / y1,
+          (-c1 - x1 * 10) / y1,
+        ];
+        chart.data.datasets[1].label = `Equation 2: ${x2}x + ${y2}y = ${c2}`;
+        chart.data.datasets[1].data = [
+          (-c2 - x2 * -10) / y2,
+          (-c2 - x2 * 10) / y2,
+        ];
+        chart.data.datasets[2].data = [
+          {
+            x: xIntersect,
+            y: yIntersect,
+          },
+        ];
+        chart.update();
+      } else {
+        // Create a chart.js line chart configuration object
+        const chartConfig = {
+          type: "line",
+          data: {
+            labels: [-10, 10],
+            datasets: [
+              {
+                label: `Equation 1: ${x1}x + ${y1}y = ${c1}`,
+                data: [(-c1 - x1 * -10) / y1, (-c1 - x1 * 10) / y1],
+                fill: false,
+                borderColor: "red",
+                tension: 0.1,
               },
-            },
-            y: {
-              type: "linear",
-              ticks: {
-                stepSize: 1,
-                max: 10,
-                min: -10,
+              {
+                label: `Equation 2: ${x2}x + ${y2}y = ${c2}`,
+                data: [(-c2 - x2 * -10) / y2, (-c2 - x2 * 10) / y2],
+                fill: false,
+                borderColor: "blue",
+                tension: 0.1,
+              },
+              {
+                label: "Intersection Point",
+                data: [
+                  {
+                    x: xIntersect,
+                    y: yIntersect,
+                  },
+                ],
+                pointRadius: 6,
+                pointBackgroundColor: "green",
+              },
+            ],
+          },
+          options: {
+            scales: {
+              x: {
+                type: "linear",
+                ticks: {
+                  stepSize: 1,
+                  max: 10,
+                  min: -10,
+                },
+              },
+              y: {
+                type: "linear",
+                ticks: {
+                  stepSize: 1,
+                  max: 10,
+                  min: -10,
+                },
               },
             },
           },
-        },
-      };
+        };
 
-      // Get the canvas element and create the chart
-      const canvas = document.getElementById(divId);
-      new Chart(canvas, chartConfig);
+        // Get the canvas element and create the chart
+        const canvas = document.getElementById(divId);
+        new Chart(canvas, chartConfig);
+      }
     }
   };
 
   return (
     <div className="p-12 min-h-screen items-center flex-col">
       <nav className="w-full font-mono border-b z-10 text-gray-700 dark:text-white bg-zinc-300 border-gray-800 dark:border-stone-100 dark:bg-gray-800 backdrop-blur-2xl">
-        <div className="justify-between px-4 mx-auto lg:max-w-7xl md:items-center md:flex md:px-8">
+        <div className="justify-between px-4 mx-auto lg:max-w-7xl lg:items-center lg:flex lg:px-8">
           <div>
-            <div className="flex items-center justify-between py-3 md:py-5 md:block">
+            <div className="flex items-center justify-between py-3 lg:py-5 lg:block">
               <a href="/">
                 <h2 className="text-2xl italic font-bold">MATH WADDLE</h2>
               </a>
 
-              <div className="md:hidden">
+              <div className="lg:hidden">
                 <button
                   className="p-2 t rounded-md outline-none focus:border-gray-400 focus:border"
                   onClick={() => setNavbar(!navbar)}
@@ -193,17 +196,23 @@ export default function Poly() {
           </div>
           <div>
             <div
-              className={`flex-1 justify-self-center pb-3 mt-8 md:block md:pb-0 md:mt-0 ${
+              className={`flex-1 justify-self-center pb-3 mt-8 lg:block lg:pb-0 lg:mt-0 ${
                 navbar ? "block" : "hidden"
               }`}
             >
-              <ul className="items-center justify-center space-y-8 md:flex md:space-x-6 md:space-y-0">
+              <ul className="items-center justify-center space-y-8 lg:flex lg:space-x-6 lg:space-y-0">
                 <li className="">
                   <Link href="/">Home</Link>
                 </li>
-                <li className="">
-                  <Link href="/poly">Polynomial and Algebra</Link>
+                <li>
+                  <select className="w-full p-2 text-gray-700 dark:text-white bg-zinc-300 dark:bg-gray-800 ">
+                    <option>
+                      <Link href="/linearEquation">Linear Equation</Link>
+                    </option>
+                    <option>Quadratic Equation</option>
+                  </select>
                 </li>
+
                 <li className="">
                   <Link href="/about">About US</Link>
                 </li>
@@ -216,12 +225,14 @@ export default function Poly() {
         </div>
       </nav>
 
-      <div className="p-10">
-        <div id="linear">
-          <h1 className="font-mono text-xl">Linear Equations :-</h1>
+      <div className="p-10 text-center items-center">
+        <div id="Linear-Equation">
+          <h1 className="font-mono text-base sm:text-xl">
+            Linear Equations :-
+          </h1>
           <br />
-          <div className="font-mono px-5">
-            <div className="flex">
+          <div className="font-mono text-sm sm:text-lg px-5">
+            <div className="flex sm:flex-row flex-col">
               <p>First equation (x+y=10) :- </p>
               <input
                 type="text"
@@ -234,7 +245,7 @@ export default function Poly() {
               />
             </div>
             <br />
-            <div className="flex">
+            <div className="flex flex-col sm:flex-row">
               <p>Second equation (x+2y=20) :- </p>
               <input
                 type="text"
@@ -247,7 +258,10 @@ export default function Poly() {
               />
             </div>
             <br />
-            <button onClick={(e) => LinearGraphFunc(value1, value2, "graph")}>
+            <button
+              onClick={(e) => LinearGraphFunc(value1, value2, "graph")}
+              className="border-solid border-2 p-1 border-black dark:border-white"
+            >
               Submit
             </button>
           </div>
